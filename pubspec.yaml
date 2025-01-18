@@ -43,6 +43,20 @@ dependencies:
   firebase_storage: 12.3.4 
   firebase_messaging: 15.1.3
   firebase_analytics: 11.3.3
+  uuid: ^4.5.1
+  font_awesome_flutter: ^10.7.0
+  flutter_facebook_auth: ^7.1.1
+  google_sign_in: ^6.2.1
+  image_picker: ^1.1.2
+  image: ^4.3.0
+  flutter_hooks: ^0.20.5
+  collection: ^1.18.0
+  intl: ^0.19.0
+  video_thumbnail: ^0.5.3
+  video_player: ^2.9.2
+  lottie: ^3.1.3
+  share_plus: ^10.1.1
+  url_launcher: ^6.3.1
 
 dev_dependencies:
   flutter_test:
@@ -66,6 +80,13 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
+  assets:
+    - lib/assets/animations/data_not_found.json
+    - lib/assets/animations/empty.json
+    - lib/assets/animations/error.json
+    - lib/assets/animations/loading.json
+    - lib/assets/animations/small_error.json
 
   # To add assets to your application, add an assets section, like this:
   # assets:

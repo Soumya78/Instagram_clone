@@ -23,6 +23,8 @@ android {
      dependencies {
     // Import the Firebase BoM
     implementation platform('com.google.firebase:firebase-bom:33.5.1')
+    implementation 'com.facebook.android:facebook-android-sdk:latest.release'
+    implementation 'com.android.support:multidex:1.0.3'
 
     // Add Firebase Analytics or any other Firebase products
     implementation 'com.google.firebase:firebase-analytics'
@@ -41,6 +43,7 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        multiDexEnabled true
     }
 
     buildTypes {
