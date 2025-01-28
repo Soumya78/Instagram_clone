@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:instagram_clone/state/constants/firebase_collection_name.dart';
 import 'package:instagram_clone/state/image_upload/model/constants/constants.dart';
@@ -75,29 +76,38 @@ class Imageuploadnotifier extends StateNotifier<Isloading> {
         .child(userid)
         .child(FirebaseCollectionName.thumbanails)
         .child(filename);
+    print("The file is $file");
 
-    final originalFileref = FirebaseStorage.instance
+     final originalFileref = FirebaseStorage.instance
         .ref()
         .child(userid)
         .child(filetype.collectionname)
         .child(filename);
 
+
     print("The file name is $filename");
+
 
     try {
       final thumbnailupoadtask = await thumbnailref.putData(thumbnailluint8ist);
+      print("........");
 
       final thumbnailStorageid = thumbnailupoadtask.ref.name;
-
-      final originalFileuploadtask = await originalFileref
-          .putFile(file); // Specify only essential metadata
+      print("...........");
+      print(file);
+      print("FileType: $filetype, Collection Name: ${filetype.collectionname}");
+      print("Generated Path: $userid/${filetype.collectionname}/$filename");
+      print(userid);
+   // I changed the putfile to putData and it worked for both andorid and ios
+      final originalFileuploadtask = await originalFileref.putData(
+          file.readAsBytesSync()); // Specify only essential metadata
 
       print(
           '....****###: Uploading originalFileuploadtask complted $originalFileuploadtask');
 
       final originalStorageid = originalFileuploadtask.ref.name;
       print('....****###%%');
-      print('FileType value: $filetype');
+      print('FileType value: $filetype ');
 
       final postpayload = PostPayload(
           userid: userid,
@@ -114,9 +124,12 @@ class Imageuploadnotifier extends StateNotifier<Isloading> {
       await FirebaseFirestore.instance
           .collection(FirebaseCollectionName.posts)
           .add(postpayload);
-    } catch (e) {
+    } catch (e,stacktrace) {
       print('Error occurred: $e');
-
+      if (e is FirebaseException) {
+        print("Error code: ${e.code}");
+        print("Error message: ${e.message}");
+      }
 
       return false;
     } finally {

@@ -14,41 +14,67 @@ import '../../constants/strings.dart';
 class CommentTile extends ConsumerWidget {
   final Comment comment;
 
-  const CommentTile({super.key, required this.comment});
+  const CommentTile({
+    Key? key,
+    required this.comment,
+  }) : super(key: key);
 
+  @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userinfo = ref.watch(userInfoModelProvider(comment.fromUserId));
-    userinfo.when(data: (userinfomodel) {
-      final currentuserid = ref.read(useridprovider);
-      return ListTile(
-        trailing: currentuserid == comment.fromUserId
-            ? IconButton(
-                onPressed: () async {
-                  final shouldeletecomment = await displaydeletedailog(context);
-                  if (shouldeletecomment) {
-                    await ref
-                        .read(deletecommentprovider.notifier)
-                        .deletecomment(commentid: comment.id);
-                  }
-                },
-                icon: const Icon(Icons.delete),
-              )
-            : null,
-        title: Text(userinfomodel.displayName),
-        subtitle: Text(comment.comments),
-      );
-    }, error: (errpr, stacktrace) {
-      const SmallErrorAnimation();
-    }, loading: () {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
-    });
-    return const Placeholder();
+    final userInfo = ref.watch(
+      userInfoModelProvider(
+        comment.fromUserId,
+      ),
+    );
+    return userInfo.when(
+      data: (userInfo) {
+        final currentUserId = ref.read(useridprovider);
+        return ListTile(
+          trailing: currentUserId == comment.fromUserId
+              ? IconButton(
+                  icon: const Icon(Icons.delete),
+                  onPressed: () async {
+                    print('Delteting process starts');
+                    final shouldDeleteComment =
+                        await displayDeleteDialog(context);
+                    print(shouldDeleteComment);
+                    if (shouldDeleteComment) {
+                      await ref
+                          .read(
+                            deletecommentprovider.notifier,
+                          )
+                          .deletecomment(
+                            commentid: comment.id,
+                          );
+                    }
+                    print('Deleting process ended');
+                  },
+
+                )
+              : null,
+          title: Text(
+            userInfo.displayName,
+          ),
+          subtitle: Text(
+            comment.comments,
+          ),
+        );
+      },
+      error: (error, stackTrace) {
+        return const SmallErrorAnimation();
+      },
+      loading: () {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
   }
 
-  Future<bool> displaydeletedailog(BuildContext context) =>
+  Future<bool> displayDeleteDialog(BuildContext context) =>
       DeleteDialog(titleofobjecttodelete: Strings.comments)
           .present(context)
-          .then((value) => value ?? false);
+          .then(
+            (value) => value ?? false,
+          );
 }

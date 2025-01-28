@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:instagram_clone/state/typedef/post/post.dart';
 import 'package:instagram_clone/views/components/post/post_thumbanilview.dart';
 import 'package:instagram_clone/views/post_comments/post_comments_view.dart';
+import 'package:instagram_clone/views/post_details/post_details_view.dart';
 
 class PostsGridview extends StatelessWidget {
   final Iterable<Post> posts;
@@ -23,15 +24,12 @@ class PostsGridview extends StatelessWidget {
           return PostThumbanilview(
               post: post,
               callback: () {
-                print("Pushing to Postcommentviewstartee");
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => Postcommentview(postid: post.postid),
+                    builder: (context) => PostDetailsView(post: post),
                   ),
-
                 );
-                print("Pushing to Postcommentviewended");
               });
         });
   }

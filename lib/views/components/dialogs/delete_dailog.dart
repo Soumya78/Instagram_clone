@@ -12,7 +12,7 @@ DeleteDialog({
     title: '${Strings.delete} $titleofobjecttodelete?',
     message: '${Strings.areYouSureYouWantToDeleteThis} $titleofobjecttodelete?',
     buttons: {
-     Strings.delete: false,
+     Strings.delete: true,
       Strings.cancel: false,
     },
   );

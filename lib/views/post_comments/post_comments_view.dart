@@ -27,13 +27,12 @@ class Postcommentview extends HookConsumerWidget {
     final comments = ref.watch(postcommentprovider(request.value));
     comments.when(
       data: (data) {
-        print("Comments: ${data.length}"); // Print the fetched comments
       },
       loading: () {
-        print("Loading comments..."); // The provider is still fetching data
+
       },
       error: (error, stackTrace) {
-        print("Error fetching comments: $error"); // Handle any errors
+
       },
     );
     useEffect(() {
@@ -118,7 +117,7 @@ class Postcommentview extends HookConsumerWidget {
   Future<void> _sumbitcommentwithcontroller(
 
       TextEditingController controller, WidgetRef ref) async {
-    print("This is working");
+
     final userid = ref.read(useridprovider);
     if (userid == null) {
       return;
@@ -126,7 +125,7 @@ class Postcommentview extends HookConsumerWidget {
     final issent = await ref
         .read(sendcommentprovider.notifier)
         .sendcomment(userid: userid, postid: postid, comment: controller.text);
-    print("Comment sent: $issent for postId: $postid");
+
     if (issent) {
       controller.clear();
       dissmissKeyboard();
