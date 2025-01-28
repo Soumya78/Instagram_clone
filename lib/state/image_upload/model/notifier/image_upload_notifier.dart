@@ -90,24 +90,19 @@ class Imageuploadnotifier extends StateNotifier<Isloading> {
 
     try {
       final thumbnailupoadtask = await thumbnailref.putData(thumbnailluint8ist);
-      print("........");
+  
 
       final thumbnailStorageid = thumbnailupoadtask.ref.name;
-      print("...........");
-      print(file);
-      print("FileType: $filetype, Collection Name: ${filetype.collectionname}");
-      print("Generated Path: $userid/${filetype.collectionname}/$filename");
-      print(userid);
+  
    // I changed the putfile to putData and it worked for both andorid and ios
       final originalFileuploadtask = await originalFileref.putData(
           file.readAsBytesSync()); // Specify only essential metadata
 
-      print(
-          '....****###: Uploading originalFileuploadtask complted $originalFileuploadtask');
+     
 
       final originalStorageid = originalFileuploadtask.ref.name;
-      print('....****###%%');
-      print('FileType value: $filetype ');
+
+  
 
       final postpayload = PostPayload(
           userid: userid,
@@ -126,9 +121,7 @@ class Imageuploadnotifier extends StateNotifier<Isloading> {
           .add(postpayload);
     } catch (e,stacktrace) {
       print('Error occurred: $e');
-      if (e is FirebaseException) {
-        print("Error code: ${e.code}");
-        print("Error message: ${e.message}");
+    
       }
 
       return false;
